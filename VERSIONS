@@ -1,0 +1,7 @@
+Changes in 0.1.2
+  Initial release
+
+  Features:
+  * Implementation of cananoical retickr Stemmer as porter stemmer
+  * Implementation of a Story object that handles common text manipulations
+  * Implemented a matrix library to compute column sums and unit vectors
