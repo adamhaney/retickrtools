@@ -46,7 +46,8 @@ setup(
     data_files=[],
     dependency_links=[],
     install_requires=[
-        "nltk==2.0.1rc4"
+        "nltk==2.0.1rc4",
+        "simplejson"
         ],
     zip_safe=True,
 )
