@@ -7,6 +7,7 @@ symbols, urls, or other tokens that we aren't interested in.
 # Universe imports
 from collections import OrderedDict
 import nltk.stem.porter
+from nltk.util import ngrams
 import string
 import re
 
@@ -98,6 +99,20 @@ def tokenize_and_clean(all_words):
                 clean_words.append(word)
 
     return clean_words
+
+def ngrams_counts(full_text, n):
+    """
+    For a given string of text return a dictionary of ngrams
+    occurances for a given n.
+    """
+    ngram_occurences = {}
+
+    for ngram in ngrams(tokenize_and_clean(full_text), n):
+        ngram = ' '.join(list(ngram))
+        ngram_occurences[ngram] = ngram_occurences.get(ngram, 0) + 1
+
+    return ngram_occurences
+
 
 
 class Stemmer(object):
