@@ -4,3 +4,5 @@ dist/
 retickrtools.egg-info/
 *~
 .fuse_hidden*
+*.pyc
+
