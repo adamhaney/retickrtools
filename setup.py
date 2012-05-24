@@ -47,6 +47,7 @@ setup(
     dependency_links=[],
     install_requires=[
         "nltk==2.0.1rc4",
+        "PIL==1.1.7",
         "simplejson"
         ],
     zip_safe=True,
