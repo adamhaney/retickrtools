@@ -1,6 +1,6 @@
 ================
 Smart RSS Parser
-===============
+================
 
 A Smart Wrapper for the Universal Feed Parser
 
