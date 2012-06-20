@@ -53,6 +53,25 @@ def unit_vector(vector):
     sum_vector = sum(vector)
     return [float(elm) / sum_vector for elm in vector]
 
+
+def unit_dictionary(dict_):
+    """
+    Works just like unit vector but for dictionaries that represent
+    vectors with named values
+
+    >>> unit_dictionary({"a": 1, "b": 1})
+    {'a': 0.5, 'b': 0.5}
+    """
+
+    sum_vector = sum(dict_.values())
+
+    return {
+        k: float(v) / sum_vector
+        for k, v
+        in dict_.items()
+        }
+
+
 if __name__ == "__main__":
     import doctest
 

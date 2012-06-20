@@ -36,6 +36,7 @@ setup(
     url="http://about.retickr.com",
     packages=[
         'retickrtools',
+        'retickrtools.smartrssparser'
         ],
     long_description=read('README'),
     classifiers=[
