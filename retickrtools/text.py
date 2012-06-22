@@ -100,10 +100,14 @@ def tokenize_and_clean(all_words):
 
     return clean_words
 
+
 def ngrams_counts(full_text, n):
     """
     For a given string of text return a dictionary of ngrams
     occurances for a given n.
+
+    >>> ngrams_counts("the quick brown fox", 3)
+    {'the quick brown': 1, 'quick brown fox': 1}
     """
     ngram_occurences = {}
 
@@ -112,7 +116,6 @@ def ngrams_counts(full_text, n):
         ngram_occurences[ngram] = ngram_occurences.get(ngram, 0) + 1
 
     return ngram_occurences
-
 
 
 class Stemmer(object):
