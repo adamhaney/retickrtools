@@ -47,7 +47,7 @@ def build_source_proxy_name(service, resource_name):
     return "{0}/{1}".format(service, base64.b64encode(resource_name))
 
 
-def valid_source_proxy(url):
+def valid_source_proxy_name(url):
     mo = re.match(r"(facebook|twitter|feed)/(?P<resource>)", url)
 
     if mo:
