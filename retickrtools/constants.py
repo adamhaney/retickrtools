@@ -5,10 +5,8 @@ Retickr Data Model Constants File
 We use various magic numbers, hardcoded URLs, etc throughout
 retickr.  Here we attempt to localize them all.
 """
-#redirect_url = "http://cdn.retickr.com/story_redirect"
-#icon_cdn_url = "http://cdn.retickr.com/icons"
-redirect_url = "http://10.100.90.2:1985/story_redirect"
-icon_cdn_url = "http://10.100.90.2:1985/icons"
+redirect_url = "http://sourceproxy.firepl.ug/story_redirect"
+icon_cdn_url = "http://sourceproxy.firepl.ug/icons"
 
 cannonical_rtkr_datetime_format = "%Y-%m-%dT%H:%M:%SZ"
 

@@ -371,10 +371,10 @@ def url2sitename(url):
     url = url.strip()
 
     # Check if this is a source proxy URL
-    resource_name = url_utils.extract_resource_name_from_url(url)
+    resource_name = extract_resource_name_from_url(url)
 
     if resource_name:
-        url = url_utils.extract_fields_from_source_proxy_name(resource_name)[1]
+        url = extract_fields_from_source_proxy_name(resource_name)[1]
 
     # Massage the data a bit; urlparse needs it to have a protocol...
     if None == get_protocol(url):
