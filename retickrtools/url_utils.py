@@ -25,12 +25,12 @@ def build_source_proxy_url(service, service_username):
     URL for it.
 
     >>> build_source_proxy_url("facebook", "joshmarlow@gmail.com")
-    'https://mynews.retickr.com/sources/facebook/am9zaG1hcmxvd0BnbWFpbC5jb20='
+    'http://sourceproxies.firepl.ug/sources/facebook/am9zaG1hcmxvd0BnbWFpbC5jb20='
     >>> build_source_proxy_url("twitter", "JoshuaMarlow")
-    'https://mynews.retickr.com/sources/twitter/Sm9zaHVhTWFybG93'
+    'http://sourceproxies.firepl.ug/sources/twitter/Sm9zaHVhTWFybG93'
     """
     return "{0}/sources/{1}/{2}".format(
-            "https://mynews.retickr.com",
+            rtkr_constants.sourceproxy_base_url,
             service,
             base64.b64encode(service_username))
 
@@ -67,7 +67,7 @@ def valid_source_proxy_url(url):
     Indicates if the provided url is a valid source proxy
     URL.
 
-    >>> valid_source_proxy_url('https://mynews.retickr.com/sources/feed/aHR0cDovL3Jzc2ZlZWRzLnVzYXRvZGF5LmNvbS91c2F0b2RheS1OZXdzVG9wU3Rvcmllcw==')
+    >>> valid_source_proxy_url('https://sourceproxies.firepl.ug/sources/feed/aHR0cDovL3Jzc2ZlZWRzLnVzYXRvZGF5LmNvbS91c2F0b2RheS1OZXdzVG9wU3Rvcmllcw==')
     True
     >>> valid_source_proxy_url('http://rssfeeds.usatoday.com/usatoday-NewsTopStories')
     False
@@ -103,7 +103,7 @@ def extract_resource_name_from_url(source_proxy_url):
     Given a source proxy URL, extract the resource name from it.
 
     >>> extract_resource_name_from_url(\
-    "https://mynews.retickr.com/sources/facebook/am9zaG1hcmxvd0BnbWFpbC5jb20=")
+    "https://sourceproxies.firepl.ug/sources/facebook/am9zaG1hcmxvd0BnbWFpbC5jb20=")
     'facebook/am9zaG1hcmxvd0BnbWFpbC5jb20='
     >>> extract_resource_name_from_url(\
     "http://www.google.com")
@@ -200,7 +200,7 @@ def reject_as_hopeless_url(str_):
     Here we look for some of those substrings and reject the URL out of hand if
     we find them
 
-    >>> reject_as_hopeless_url("http://mynews.retickr.com/user/josh.marlow@retickr.com/management")
+    >>> reject_as_hopeless_url("http://sourceproxies.firepl.ug/user/josh.marlow@retickr.com/management")
     False
     >>> reject_as_hopeless_url("http:/slashdot.org/rss/current.xml")
     True
@@ -364,7 +364,7 @@ def url2sitename(url):
     'awww'
     >>> url2sitename("http://www.retickr.com")
     'retickr'
-    >>> url2sitename("http://mynews.retickr.com/sources/feed/aHR0cHM6Ly90d2l0dGVyLmNvbS9zdGF0dXNlcy91c2VyX3RpbWVsaW5lLzEzMzQ4LnJzcw==")
+    >>> url2sitename("http://sourceproxies.firepl.ug/sources/feed/aHR0cHM6Ly90d2l0dGVyLmNvbS9zdGF0dXNlcy91c2VyX3RpbWVsaW5lLzEzMzQ4LnJzcw==")
     'twitter'
     """
 
