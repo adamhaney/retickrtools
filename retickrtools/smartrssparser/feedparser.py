@@ -3857,46 +3857,7 @@ class Serializer:
     def __init__(self, results):
         self.results = results
 
-class TextSerializer(Serializer):
-    def write(self, stream=sys.stdout):
-        self._writer(stream, self.results, '')
 
-    def _writer(self, stream, node, prefix):
-        if not node: return
-        if hasattr(node, 'keys'):
-            keys = node.keys()
-            keys.sort()
-            for k in keys:
-                if k in ('description', 'link'): continue
-                if node.has_key(k + '_detail'): continue
-                if node.has_key(k + '_parsed'): continue
-                self._writer(stream, node[k], prefix + k + '.')
-        elif type(node) == types.ListType:
-            index = 0
-            for n in node:
-                self._writer(stream, n, prefix[:-1] + '[' + str(index) + '].')
-                index += 1
-        else:
-            try:
-                s = str(node).encode('utf-8')
-                s = s.replace('\\', '\\\\')
-                s = s.replace('\r', '')
-                s = s.replace('\n', r'\n')
-                stream.write(prefix[:-1])
-                stream.write('=')
-                stream.write(s)
-                stream.write('\n')
-            except:
-                pass
-        
-class PprintSerializer(Serializer):
-    def write(self, stream=sys.stdout):
-        if self.results.has_key('href'):
-            stream.write(self.results['href'] + '\n\n')
-        from pprint import pprint
-        pprint(self.results, stream)
-        stream.write('\n')
-        
 if __name__ == '__main__':
     try:
         from optparse import OptionParser

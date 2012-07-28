@@ -25,7 +25,6 @@ import time
 import calendar
 import warnings
 import copy
-import pprint
 import urllib
 from eventlet.green import urllib2 as urllib2
 import eventlet
@@ -156,17 +155,6 @@ class SmartFeedParserDict:
         definted elements
         """
         return self.__feed_dict__.iteritems()
-
-    def pprint(self):
-        """
-        a convenience function for printing large dictionaries to the screen
-        during debugging
-
-        >>> SmartFeedParserDict({'a': 'A', 'b': 'B'}).pprint() #doctest: +SKIP
-
-        """
-        pp = pprint.PrettyPrinter(indent=2)
-        pp.pprint(self.__feed_dict__)
 
     def safe_delete(self, name):
         """
@@ -977,5 +965,19 @@ if __name__ == "__main__":
         IGNORE_EXCEPTION_DETAIL = 1
         doctest.testmod()
     else:
+        def pprint(smartfeedparserdict):
+            """
+            a convenience function for printing large dictionaries to the screen
+            during debugging
+
+            >>> sfpd = SmartFeedParserDict({'a': 'A', 'b': 'B'})
+            >>> pprint(sfpd) #doctest: +SKIP
+
+            """
+            import pprint
+
+            pp = pprint.PrettyPrinter(indent=2)
+            pp.pprint(smartfeedparserdict.__feed_dict__)
+
         feed = smart_parse(sys.argv[1])
-        feed.pprint()
+        pprint(feed)
