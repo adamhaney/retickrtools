@@ -3,7 +3,7 @@ import eventlet.timeout
 from eventlet.green import urllib2
 
 
-def event_network(uris, timeout=15, greenpool=None, greenpoolsize=1000):
+def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None):
     """
     Given a list of uris to pull over network pull them and then
     return a dictionary of their responses keyed on the uri which was
