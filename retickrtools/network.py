@@ -3,7 +3,7 @@ import eventlet.timeout
 from eventlet.green import urllib2
 
 
-def event_network(uris, timeout=15):
+def event_network(uris, timeout=15, greenpool=None, greenpoolsize=1000):
     """
     Given a list of uris to pull over network pull them and then
     return a dictionary of their responses keyed on the uri which was
@@ -11,7 +11,10 @@ def event_network(uris, timeout=15):
     """
 
     # Now, using eventlet go and fetch all of those links
-    pool = eventlet.GreenPool(1000)
+    if not greenpool:
+        pool = eventlet.GreenPool(greenpoolsize)
+    else:
+        pool = greenpool
 
     def pull_link(link):
         try:
