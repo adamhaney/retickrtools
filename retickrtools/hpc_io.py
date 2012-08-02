@@ -40,7 +40,7 @@ def kv_line_read(line, wtf_function=lambda e: 'NULL'):
         value = simplejson.loads(restore_bad(split_line[1]))
 
     except (IndexError, simplejson.decoder.JSONDecodeError), e:
-        return wtf_function(e, str_)
+        return key, wtf_function(e)
 
     return (key, value)
 
