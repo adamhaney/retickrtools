@@ -1,6 +1,6 @@
 import eventlet
 import eventlet.timeout
-from eventlet.green import urllib2, httplib.BadStatusLine
+from eventlet.green import urllib2, httplib
 
 
 def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None, headers=None, json=False, default_value=""):
