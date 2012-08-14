@@ -5,7 +5,7 @@ Retickr Data Model Constants File
 We use various magic numbers, hardcoded URLs, etc throughout
 retickr.  Here we attempt to localize them all.
 """
-sourceproxy_base_url = "http://sourceproxies.firepl.ug"
+sourceproxy_base_url = "http://sourceproxies.retickr.com"
 redirect_url = "{0}/story_redirect".format(sourceproxy_base_url)
 icon_cdn_url = "{0}/icons".format(sourceproxy_base_url)
 
