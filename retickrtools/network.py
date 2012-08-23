@@ -1,9 +1,9 @@
 import eventlet
 import eventlet.timeout
-from eventlet.green import urllib2
+from eventlet.green import urllib2, httplib
 
 
-def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None):
+def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None, headers=None, json=False, default_value=""):
     """
     Given a list of uris to pull over network pull them and then
     return a dictionary of their responses keyed on the uri which was
@@ -17,12 +17,23 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None):
         pool = greenpool
 
     def pull_link(link):
-        try:
-            with eventlet.timeout.Timeout(timeout, False):
-                return (link, urllib2.urlopen(link).read())
-        except:
-            return (link, "")
-        return (link, "")
+        with eventlet.timeout.Timeout(timeout, False) as timeout:
+            try:
+                req = urllib2.Request(link)
+                
+                if headers:
+                    for k, v in headers.items():
+                        req.add_header(k, v)
+                        
+                    return (link, urllib2.urlopen(req).read())
+
+            except (eventlet.Timeout, urllib2.HTTPError, httplib.BadStatusLine):
+                return (link, default_value)
+
+            finally:
+                timeout.cancel()
+
+        return (link, default_value)
 
     # Pull html for all of the links return a list of tuples in the
     # form [(link, html), ...]
@@ -34,4 +45,12 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None):
 
     pool.waitall()
 
-    return dict(filter(lambda x: type(x) != None and len(x) > 1, results))
+    result = dict(filter(lambda x: type(x) != None and len(x) > 1, results))
+    
+    if json:
+        tmp_dict = {}
+        for k, v in result.items():
+            tmp_dict[k] = json.loads(v)
+        result = tmp_dict
+
+    return result
