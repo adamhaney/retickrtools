@@ -68,6 +68,11 @@ def deep_match(ds1, ds2, match_failure_handler = lambda el1, el2: False):
     '3 does not match 4'
     """
 
+    if type(ds1) == str:
+        ds1 = unicode(ds1)
+    if type(ds2) == str:
+        ds2 = unicode(ds2)
+
     # Do the types match?
     if type(ds1) != type(ds2):
         return False
