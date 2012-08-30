@@ -1,3 +1,9 @@
+Changes in 0.1.4.4
+  Fixed an indent bug in event_network
+  Removed a hardcoded reference to sourceproxies-api from the constants file
+  and replaced it with a reference to SOURCEPROXY_API in the django settings
+  files
+
 Changes in 0.1.4.3
   Fixed a bug or two in event_network
 
