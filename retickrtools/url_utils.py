@@ -16,6 +16,9 @@ import base64
 import re
 import urlparse
 
+# Thirdparty imports
+from django.conf import settings
+
 # Retickr imports
 import retickrtools.constants as rtkr_constants
 
@@ -30,7 +33,7 @@ def build_source_proxy_url(service, service_username):
     'http://sourceproxies.firepl.ug/sources/twitter/Sm9zaHVhTWFybG93'
     """
     return "{0}/sources/{1}/{2}".format(
-            rtkr_constants.sourceproxy_base_url,
+            settings.SOURCEPROXIES_API,
             service,
             base64.b64encode(service_username))
 

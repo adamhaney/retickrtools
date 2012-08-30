@@ -5,9 +5,11 @@ Retickr Data Model Constants File
 We use various magic numbers, hardcoded URLs, etc throughout
 retickr.  Here we attempt to localize them all.
 """
-sourceproxy_base_url = "http://sourceproxies.retickr.com"
-redirect_url = "{0}/story_redirect".format(sourceproxy_base_url)
-icon_cdn_url = "{0}/icons".format(sourceproxy_base_url)
+
+from django.conf import settings
+
+redirect_url = "{0}/story_redirect".format(settings.SOURCEPROXIES_API)
+icon_cdn_url = "{0}/icons".format(settings.SOURCEPROXIES_API)
 
 cannonical_rtkr_datetime_format = "%Y-%m-%dT%H:%M:%SZ"
 
