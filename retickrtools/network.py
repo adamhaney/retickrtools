@@ -30,7 +30,7 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
                     for k, v in headers.items():
                         req.add_header(k, v)
 
-                    return (link, urllib2.urlopen(req).read())
+                return (link, urllib2.urlopen(req).read())
 
             except (eventlet.Timeout, urllib2.HTTPError, httplib.BadStatusLine):
                 return (link, default_value)
