@@ -50,7 +50,7 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
 
     pool.waitall()
 
-    result = dict(filter(lambda x: type(x) != None and len(x) > 1, results))
+    result = dict(filter(lambda (link, data): type(data) != None and len(data) > 0, results))
 
     if treat_results_as_json:
         tmp_dict = {}
