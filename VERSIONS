@@ -1,3 +1,7 @@
+Changes in 0.1.4.5
+  Fixed a bug in event_network where empty responses would not be filtered out
+  Added a parameter to make filtering empty responses optional
+
 Changes in 0.1.4.4
   Fixed an indent bug in event_network
   Removed a hardcoded reference to sourceproxies-api from the constants file
