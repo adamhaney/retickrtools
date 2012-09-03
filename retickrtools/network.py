@@ -8,7 +8,8 @@ from eventlet.green import urllib2, httplib
 
 
 def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
-    headers=None, treat_results_as_json=False, default_value=""):
+    headers=None, treat_results_as_json=False, filter_out_empty_responses=True,
+    default_value=""):
     """
     Given a list of uris to pull over network pull them and then
     return a dictionary of their responses keyed on the uri which was
@@ -50,12 +51,19 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
 
     pool.waitall()
 
-    result = dict(filter(lambda (link, data): type(data) != None and len(data) > 0, results))
+    if filter_out_empty_responses:
+        results = filter(lambda (link, data): type(data) != None and len(data) > 0, results)
+
+    results = dict(results)
 
     if treat_results_as_json:
         tmp_dict = {}
-        for k, v in result.items():
-            tmp_dict[k] = json.loads(v)
+        for k, v in results.items():
+            try:
+                tmp_dict[k] = json.loads(v)
+            except ValueError:
+                tmp_dict[k] = None
+
         result = tmp_dict
 
     return result
