@@ -8,8 +8,8 @@ from eventlet.green import urllib2, httplib
 
 
 def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
-    headers=None, treat_results_as_json=False, filter_out_empty_responses=True,
-    default_value=""):
+    headers=None, treat_results_as_json=False, default_value="",
+    filter_out_empty_responses=True):
     """
     Given a list of uris to pull over network pull them and then
     return a dictionary of their responses keyed on the uri which was
