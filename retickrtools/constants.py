@@ -6,10 +6,15 @@ We use various magic numbers, hardcoded URLs, etc throughout
 retickr.  Here we attempt to localize them all.
 """
 
-from django.conf import settings
+try:
+    from django.conf import settings
 
-redirect_url = "{0}/story_redirect".format(settings.SOURCEPROXIES_API)
-icon_cdn_url = "{0}/icons".format(settings.SOURCEPROXIES_API)
+    sourceproxies_api = settings.SOURCEPROXIES_API
+except ImportError:
+    sourceproxies_api = "https://sourceproxies.firepl.ug"
+
+redirect_url = "{0}/story_redirect".format(sourceproxies_api)
+icon_cdn_url = "{0}/icons".format(sourceproxies_api)
 
 cannonical_rtkr_datetime_format = "%Y-%m-%dT%H:%M:%SZ"
 
