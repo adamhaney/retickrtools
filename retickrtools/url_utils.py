@@ -16,9 +16,6 @@ import base64
 import re
 import urlparse
 
-# Thirdparty imports
-from django.conf import settings
-
 # Retickr imports
 import retickrtools.constants as rtkr_constants
 
@@ -28,12 +25,12 @@ def build_source_proxy_url(service, service_username):
     URL for it.
 
     >>> build_source_proxy_url("facebook", "joshmarlow@gmail.com")
-    'http://sourceproxies.firepl.ug/sources/facebook/am9zaG1hcmxvd0BnbWFpbC5jb20='
+    'https://sourceproxies.firepl.ug/sources/facebook/am9zaG1hcmxvd0BnbWFpbC5jb20='
     >>> build_source_proxy_url("twitter", "JoshuaMarlow")
-    'http://sourceproxies.firepl.ug/sources/twitter/Sm9zaHVhTWFybG93'
+    'https://sourceproxies.firepl.ug/sources/twitter/Sm9zaHVhTWFybG93'
     """
     return "{0}/sources/{1}/{2}".format(
-            settings.SOURCEPROXIES_API,
+            rtkr_constants.sourceproxies_api,
             service,
             base64.b64encode(service_username))
 
@@ -74,6 +71,8 @@ def valid_source_proxy_url(url):
     True
     >>> valid_source_proxy_url('http://rssfeeds.usatoday.com/usatoday-NewsTopStories')
     False
+    >>> valid_source_proxy_url('https://example.com/sources/feed/aHR0cDovL3BiZmNvbWljcy5jb20vZmVlZC9mZWVkLnhtbA==')
+    False
     """
     return None != extract_resource_name_from_url(url)
 
@@ -112,8 +111,20 @@ def extract_resource_name_from_url(source_proxy_url):
     "http://www.google.com")
     >>> extract_resource_name_from_url(\
     "http://twitter.com/sources/blarg")
+    >>> extract_resource_name_from_url(\
+    "https://example.com/sources/feed/aHR0cDovL3BiZmNvbWljcy5jb20vZmVlZC9mZWVkLnhtbA==")
     """
-    resource_path = urlparse.urlparse(source_proxy_url).path
+    url_data = urlparse.urlparse(source_proxy_url)
+
+    # Check the domain
+    sourceproxy_netloc = urlparse.urlparse(
+        rtkr_constants.sourceproxies_api).netloc
+
+    if url_data.netloc != sourceproxy_netloc:
+        return None
+
+    # Check the path
+    resource_path = url_data.path
 
     mo = re.match(r'/sources/(?P<resource_name>.+)', resource_path)
 
