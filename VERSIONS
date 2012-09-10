@@ -1,3 +1,7 @@
+Changes in 0.1.4.6
+  Fixed a bug in the sourceproxy validation function
+  Added additional doctests to catch said bug
+
 Changes in 0.1.4.5
   Fixed a bug in event_network where empty responses would not be filtered out
   Added a parameter to make filtering empty responses optional
