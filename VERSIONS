@@ -1,3 +1,6 @@
+Changes in 0.1.4.7
+  Fixed a bug in the deep_match function
+
 Changes in 0.1.4.6
   Fixed a bug in the sourceproxy validation function
   Added additional doctests to catch said bug
