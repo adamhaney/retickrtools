@@ -85,7 +85,7 @@ def deep_match(ds1, ds2, match_failure_handler = lambda el1, el2: False):
 
         # Do the elements match?
         for i in range(len(ds1)):
-            if not deep_match(ds1[i], ds2[i]):
+            if not deep_match(ds1[i], ds2[i], match_failure_handler):
                 return match_failure_handler(ds1[i], ds2[i])
         else:
             # All the elements matched!
@@ -97,7 +97,7 @@ def deep_match(ds1, ds2, match_failure_handler = lambda el1, el2: False):
 
         # Do the elements match?
         for key, val in ds1.items():
-            if not deep_match(val, ds2.get(key, None)):
+            if not deep_match(val, ds2.get(key, None), match_failure_handler):
                 return match_failure_handler(val, ds2.get(key, None))
         else:
             # All the elements matched!
