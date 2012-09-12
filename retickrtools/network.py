@@ -64,6 +64,6 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
             except ValueError:
                 tmp_dict[k] = None
 
-        result = tmp_dict
+        results = tmp_dict
 
-    return result
+    return results
