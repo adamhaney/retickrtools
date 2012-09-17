@@ -47,8 +47,6 @@ setup(
     data_files=[],
     dependency_links=[],
     install_requires=[
-        "eventlet==0.9.16",
-        "simplejson"
         ],
     zip_safe=True,
 )
