@@ -47,8 +47,6 @@ setup(
     data_files=[],
     dependency_links=[],
     install_requires=[
-        "nltk==2.0.1rc4",
-        "PIL==1.1.7",
         "eventlet==0.9.16",
         "simplejson"
         ],
