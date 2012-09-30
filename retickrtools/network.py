@@ -7,6 +7,20 @@ import eventlet.timeout
 from eventlet.green import urllib2, httplib
 
 
+def decompress_data(compressed_data):
+    """
+    Decompress the gzipped data.
+    """
+    import StringIO
+    import gzip
+
+    compressed_stream = StringIO.StringIO(compressed_data)
+
+    gzipper = gzip.GzipFile(fileobj=compressed_stream)
+
+    return gzipper.read()
+
+
 def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
     headers=None, treat_results_as_json=False, default_value="",
     filter_out_empty_responses=True):
@@ -31,7 +45,18 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
                     for k, v in headers.items():
                         req.add_header(k, v)
 
-                return (link, urllib2.urlopen(req).read())
+                # We want it compressed if we can have it that way
+                req.add_header("Accept-encoding", "gzip")
+
+                resp = urllib2.urlopen(req)
+
+                data = resp.read()
+
+                # If the data arrived compressed, decompress it
+                if "gzip" == resp.headers["Content-Encoding"]:
+                    data = decompress_data(data)
+
+                return (link, data)
 
             except (eventlet.Timeout, urllib2.HTTPError, httplib.BadStatusLine):
                 return (link, default_value)
@@ -56,6 +81,7 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
 
     results = dict(results)
 
+    # Is this JSON?  If so, try to parse it.
     if treat_results_as_json:
         tmp_dict = {}
         for k, v in results.items():
