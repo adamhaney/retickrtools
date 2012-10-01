@@ -1,3 +1,7 @@
+Changes in 0.1.4.9
+  Fixed a bug where event_network could not deal with
+  responses if they did not have a Content-Encoding header
+
 Changes in 0.1.4.8
   Updated event_network to handle compression
 
