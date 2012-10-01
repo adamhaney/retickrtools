@@ -53,7 +53,7 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
                 data = resp.read()
 
                 # If the data arrived compressed, decompress it
-                if "gzip" == resp.headers["Content-Encoding"]:
+                if "gzip" == resp.headers.get("Content-Encoding"):
                     data = decompress_data(data)
 
                 return (link, data)
