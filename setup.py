@@ -23,7 +23,7 @@ except ImportError:
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-package_server = "http://package.retickr.com"
+os.system("pip install -r requirements.txt")
 
 setup(
     name="retickrtools",
