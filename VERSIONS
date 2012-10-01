@@ -1,3 +1,6 @@
+Changes in 0.1.4.11
+  Updated the way pip is invoked
+
 Changes in 0.1.4.10
   Added a requirements.txt file to handle dependencies
   Added eventlet as a dependency
