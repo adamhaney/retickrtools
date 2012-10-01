@@ -24,16 +24,14 @@ except ImportError:
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-def construct_pip_path():
-    return os.path.join(os.path.dirname(sys.executable), 'pip')
-
-os.system("{0} install -r requirements.txt".format(construct_pip_path))
+os.system("{0} install -r requirements.txt".format(
+    os.path.join(os.path.dirname(sys.executable), 'pip')))
 
 setup(
     name="retickrtools",
     author="Adam Haney",
     author_email="adam.haney@retickr.com",
-    version="0.1.4.11",
+    version="0.1.4.12",
     description=("A collection of tools used for common idioms at retickr"),
     license="Closed",
     keywords="Data Model",
