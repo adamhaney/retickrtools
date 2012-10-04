@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os
-import sys
 import platform
 
 # Make sure we actually have setuptools
@@ -24,14 +23,11 @@ except ImportError:
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-os.system("{0} install -r requirements.txt".format(
-    os.path.join(os.path.dirname(sys.executable), 'pip')))
-
 setup(
     name="retickrtools",
     author="Adam Haney",
     author_email="adam.haney@retickr.com",
-    version="0.1.4.12",
+    version="0.1.4.13",
     description=("A collection of tools used for common idioms at retickr"),
     license="Closed",
     keywords="Data Model",
@@ -49,6 +45,7 @@ setup(
     data_files=[],
     dependency_links=[],
     install_requires=[
+        "eventlet==0.9.17"
         ],
     zip_safe=True,
 )
