@@ -21,7 +21,6 @@ def decompress_data(compressed_data):
 
     return gzipper.read()
 
-
 def md5(str_):
     md5 = hashlib.md5()    
     md5.update(str_)
@@ -36,7 +35,7 @@ def event_network(
     headers=None,
     treat_results_as_json=False,
     default_value="",
-    filter_out_empty_responses=True
+    filter_out_empty_responses=True,
     cache=None,
     cache_key="event_network",
     cache_length=300):
@@ -81,7 +80,7 @@ def event_network(
                 cache.set("{0}::{1}".format(cache_key, md5(link), data, cache_length))
 
                 return (link, data)
-
+                        
             except (eventlet.Timeout, urllib2.HTTPError, httplib.BadStatusLine):
                 return (link, default_value)
 
