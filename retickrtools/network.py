@@ -53,7 +53,8 @@ def event_network(
                 response = urllib2.urlopen(req).read()
 
                 cache.set("{0}::{1}".format(cache_key, md5(link), response, cache_length))
-                return (link, )
+
+                return (link, response)
 
             except (eventlet.Timeout, urllib2.HTTPError, httplib.BadStatusLine):
                 return (link, default_value)
