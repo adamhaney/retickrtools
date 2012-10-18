@@ -1,4 +1,5 @@
 # Universe imports
+import hashlib
 import json
 
 # Thirdparty imports
@@ -21,9 +22,24 @@ def decompress_data(compressed_data):
     return gzipper.read()
 
 
-def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
-    headers=None, treat_results_as_json=False, default_value="",
-    filter_out_empty_responses=True):
+def md5(str_):
+    md5 = hashlib.md5()    
+    md5.update(str_)
+    return md5.hexdigest()
+
+
+def event_network(
+    uris,
+    timeout=15,
+    greenpoolsize=1000,
+    greenpool=None,
+    headers=None,
+    treat_results_as_json=False,
+    default_value="",
+    filter_out_empty_responses=True
+    cache=None,
+    cache_key="event_network",
+    cache_length=300):
     """
     Given a list of uris to pull over network pull them and then
     return a dictionary of their responses keyed on the uri which was
@@ -37,6 +53,12 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
         pool = greenpool
 
     def pull_link(link):
+        if cache != None:
+            # Check for the response in cache
+            response = cache.get("{0}::{1}".format(cache_key, md5(link)))
+            if response != None:
+                return link, response
+
         with eventlet.timeout.Timeout(timeout, False) as timeout_obj:
             try:
                 req = urllib2.Request(link)
@@ -55,6 +77,8 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
                 # If the data arrived compressed, decompress it
                 if "gzip" == resp.headers["Content-Encoding"]:
                     data = decompress_data(data)
+
+                cache.set("{0}::{1}".format(cache_key, md5(link), data, cache_length))
 
                 return (link, data)
 
