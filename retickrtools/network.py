@@ -37,7 +37,7 @@ def event_network(
     default_value="",
     filter_out_empty_responses=True,
     cache=None,
-    cache_key="event_network",
+    cache_prefix="event_network",
     cache_length=300):
     """
     Given a list of uris to pull over network pull them and then
@@ -54,7 +54,8 @@ def event_network(
     def pull_link(link):
         if cache != None:
             # Check for the response in cache
-            response = cache.get("{0}::{1}".format(cache_key, md5(link)))
+            cache_key = "{0}::{1}".format(cache_key, md5(link))
+            response = cache.get(cache_key)
             if response != None:
                 return link, response
 
@@ -77,7 +78,7 @@ def event_network(
                 if "gzip" == resp.headers["Content-Encoding"]:
                     data = decompress_data(data)
 
-                cache.set("{0}::{1}".format(cache_key, md5(link), data, cache_length))
+                cache.set(cache_key, data, cache_length)
 
                 return (link, data)
                         
