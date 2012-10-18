@@ -78,7 +78,8 @@ def event_network(
                 if "gzip" == resp.headers["Content-Encoding"]:
                     data = decompress_data(data)
 
-                cache.set(cache_key, data, cache_length)
+                if cache != None:
+                    cache.set(cache_key, data, cache_length)
 
                 return (link, data)
                         
