@@ -54,7 +54,7 @@ def event_network(
     def pull_link(link):
         if cache != None:
             # Check for the response in cache
-            cache_key = "{0}::{1}".format(cache_key, md5(link))
+            cache_key = "{0}::{1}".format(cache_prefix, md5(link))
             response = cache.get(cache_key)
             if response != None:
                 return link, response
