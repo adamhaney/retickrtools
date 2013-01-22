@@ -1,3 +1,14 @@
+Changes in 0.1.6.1
+  Okay, seriously, there were tags made without updates to this file. So
+  version 0.1.5.3 is actually newer than 0.1.6. This mistake would have been
+  easily avoided if this file was updated right before a new tag was created.
+
+  This version bump is simply to make the largest tag the latest version which
+  is what most people would assume.
+
+Changes in 0.1.6
+  ???
+
 Changes in 0.1.5.3
   None, just merged changes that had been committed directly to master and I am
   most displeased. :/
