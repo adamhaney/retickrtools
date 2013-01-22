@@ -8,6 +8,20 @@ Changes in 0.1.5.1
 Changes in 0.1.5
     ???
 
+Changes in 0.1.4.11
+  Updated the way pip is invoked
+
+Changes in 0.1.4.10
+  Added a requirements.txt file to handle dependencies
+  Added eventlet as a dependency
+
+Changes in 0.1.4.9
+  Fixed a bug where event_network could not deal with
+  responses if they did not have a Content-Encoding header
+
+Changes in 0.1.4.8
+  Updated event_network to handle compression
+
 Changes in 0.1.4.7
   Fixed a bug in the deep_match function
 

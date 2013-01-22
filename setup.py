@@ -23,8 +23,6 @@ except ImportError:
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-package_server = "http://package.retickr.com"
-
 setup(
     name="retickrtools",
     author="Adam Haney",
@@ -47,6 +45,7 @@ setup(
     data_files=[],
     dependency_links=[],
     install_requires=[
+        "eventlet==0.9.17"
         ],
     zip_safe=True,
 )
