@@ -1,6 +1,12 @@
-Changes in 0.1.4.8
+Changes in 0.1.5.2
   Added multi_ua_get to network.py.
   Added unit test file: test.py
+
+Changes in 0.1.5.1
+    ???
+
+Changes in 0.1.5
+    ???
 
 Changes in 0.1.4.7
   Fixed a bug in the deep_match function
