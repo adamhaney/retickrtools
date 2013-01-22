@@ -1,4 +1,5 @@
 # Universe imports
+import hashlib
 import json
 
 # Thirdparty imports
@@ -20,10 +21,24 @@ def decompress_data(compressed_data):
 
     return gzipper.read()
 
+def md5(str_):
+    md5 = hashlib.md5()    
+    md5.update(str_)
+    return md5.hexdigest()
 
-def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
-    headers=None, treat_results_as_json=False, default_value="",
-    filter_out_empty_responses=True):
+
+def event_network(
+    uris,
+    timeout=15,
+    greenpoolsize=1000,
+    greenpool=None,
+    headers=None,
+    treat_results_as_json=False,
+    default_value="",
+    filter_out_empty_responses=True,
+    cache=None,
+    cache_prefix="event_network",
+    cache_length=300):
     """
     Given a list of uris to pull over network pull them and then
     return a dictionary of their responses keyed on the uri which was
@@ -37,6 +52,13 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
         pool = greenpool
 
     def pull_link(link):
+        if cache != None:
+            # Check for the response in cache
+            cache_key = "{0}::{1}".format(cache_prefix, md5(link))
+            response = cache.get(cache_key)
+            if response != None:
+                return link, response
+
         with eventlet.timeout.Timeout(timeout, False) as timeout_obj:
             try:
                 req = urllib2.Request(link)
@@ -56,8 +78,11 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
                 if "gzip" == resp.headers.get("Content-Encoding"):
                     data = decompress_data(data)
 
-                return (link, data)
+                if cache != None:
+                    cache.set(cache_key, data, cache_length)
 
+                return (link, data)
+                        
             except (eventlet.Timeout, urllib2.HTTPError, httplib.BadStatusLine):
                 return (link, default_value)
 
@@ -93,3 +118,44 @@ def event_network(uris, timeout=15, greenpoolsize=1000, greenpool=None,
         results = tmp_dict
 
     return results
+
+
+def multi_ua_get(url, user_agents, timeout=15):
+    """
+    Given a url and a list of user agent strings, request the url using each
+    user agent. Do the requests concurrently using the eventlet library. Return
+    a list of pairs containing the user agent string and the content of the
+    associated response.
+    """
+    if len(url) is 0:
+        return []
+
+    if len(user_agents) is 0:
+        # If no user agent strings were supplied, we do a single request with
+        # an empty user agent.
+        user_agents = ['']
+
+    def fetch_with_ua(ua):
+        """
+        Fetch the url as the given user agent.
+        """
+        with eventlet.timeout.Timeout(timeout, False) as timeout_obj:
+            try:
+                request = urllib2.Request(url)
+                request.add_header("User-Agent", ua)
+                response = urllib2.urlopen(request)
+                data = response.read()
+                return (ua, data)
+
+            except (eventlet.Timeout, urllib2.HTTPError, ValueError), e:
+                return (ua, "")
+            finally:
+                timeout_obj.cancel()
+
+    pool = eventlet.GreenPool(len(user_agents))
+
+    responses = [
+        (ua, r) for (ua, r) in pool.imap(fetch_with_ua, user_agents)
+    ]
+
+    return responses

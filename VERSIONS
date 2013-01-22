@@ -1,3 +1,17 @@
+Changes in 0.1.5.3
+  None, just merged changes that had been committed directly to master and I am
+  most displeased. :/
+
+Changes in 0.1.5.2
+  Added multi_ua_get to network.py.
+  Added unit test file: test.py
+
+Changes in 0.1.5.1
+    ???
+
+Changes in 0.1.5
+    ???
+
 Changes in 0.1.4.11
   Updated the way pip is invoked
 
