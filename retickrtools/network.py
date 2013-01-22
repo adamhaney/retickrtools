@@ -75,7 +75,7 @@ def event_network(
                 data = resp.read()
 
                 # If the data arrived compressed, decompress it
-                if "gzip" == resp.headers["Content-Encoding"]:
+                if "gzip" == resp.headers.get("Content-Encoding"):
                     data = decompress_data(data)
 
                 if cache != None:
