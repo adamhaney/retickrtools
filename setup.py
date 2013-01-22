@@ -28,8 +28,8 @@ package_server = "http://package.retickr.com"
 setup(
     name="retickrtools",
     author="Adam Haney",
-    author_email="adam.haney@retickr.com",
-    version="0.1.4.7",
+    author_email="adam.haney@akimbo.io",
+    version="0.1.4.8",
     description=("A collection of tools used for common idioms at retickr"),
     license="Closed",
     keywords="Data Model",

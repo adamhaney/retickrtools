@@ -118,3 +118,44 @@ def event_network(
         results = tmp_dict
 
     return results
+
+
+def multi_ua_get(url, user_agents, timeout=15):
+    """
+    Given a url and a list of user agent strings, request the url using each
+    user agent. Do the requests concurrently using the eventlet library. Return
+    a list of pairs containing the user agent string and the content of the
+    associated response.
+    """
+    if len(url) is 0:
+        return []
+
+    if len(user_agents) is 0:
+        # If no user agent strings were supplied, we do a single request with
+        # an empty user agent.
+        user_agents = ['']
+
+    def fetch_with_ua(ua):
+        """
+        Fetch the url as the given user agent.
+        """
+        with eventlet.timeout.Timeout(timeout, False) as timeout_obj:
+            try:
+                request = urllib2.Request(url)
+                request.add_header("User-Agent", ua)
+                response = urllib2.urlopen(request)
+                data = response.read()
+                return (ua, data)
+
+            except (eventlet.Timeout, urllib2.HTTPError, ValueError), e:
+                return (ua, "")
+            finally:
+                timeout_obj.cancel()
+
+    pool = eventlet.GreenPool(len(user_agents))
+
+    responses = [
+        (ua, r) for (ua, r) in pool.imap(fetch_with_ua, user_agents)
+    ]
+
+    return responses
