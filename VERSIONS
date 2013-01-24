@@ -1,3 +1,6 @@
+Changes in 0.1.6.3
+  Catch urllib2.URLError in multi_ua_get()
+
 Changes in 0.1.6.2
   Catch httplib.BadStatusLine exception in multi_ua_get()
 
