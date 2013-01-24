@@ -36,8 +36,8 @@ class TestNetworkFunctions(unittest.TestCase):
         self.assertEqual(responses[1][0], user_agents[1])
 
         # Make sure the responses are not empty
-        self.assertTrue(len(responses[0][1]))
-        self.assertTrue(len(responses[1][1]))
+        self.assertTrue(len(responses[0][1]) is not 0)
+        self.assertTrue(len(responses[1][1]) is not 0)
 
     def test_multi_ua_get_bad_url(self):
         """
@@ -115,8 +115,8 @@ class TestNetworkFunctions(unittest.TestCase):
         self.assertEqual(responses[1][0], user_agents[1])
 
         # Make sure the responses are not empty
-        self.assertTrue(len(responses[0][1]))
-        self.assertTrue(len(responses[1][1]))
+        self.assertTrue(len(responses[0][1]) is not 0)
+        self.assertTrue(len(responses[1][1]) is not 0)
 
     def test_multi_ua_get_empty_ua_list(self):
         """
@@ -136,7 +136,7 @@ class TestNetworkFunctions(unittest.TestCase):
         self.assertEqual(responses[0][0], '')
 
         # We should still have a response
-        self.assertTrue(len(responses[0][1]))
+        self.assertTrue(len(responses[0][1]) is not 0)
 
     def test_multi_ua_get_timeout(self):
         """
