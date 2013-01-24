@@ -1,3 +1,6 @@
+Changes in 0.1.6.2
+  Catch httplib.BadStatusLine exception in multi_ua_get()
+
 Changes in 0.1.6.1
   Okay, seriously, there were tags made without updates to this file. So
   version 0.1.5.3 is actually newer than 0.1.6. This mistake would have been
