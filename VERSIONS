@@ -1,3 +1,7 @@
+Changes in 0.1.7.1
+ Removed multi_ua_get(). It is needed only by a specific application and has
+ been moved there.
+
 Changes in 0.1.7
   Use phantomjs to process javascript in fetched pages in the multi_ua_get()
   function
