@@ -1,2 +1,3 @@
 # External packages
 eventlet==0.9.17
+lxml==3.0.1

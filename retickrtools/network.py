@@ -1,11 +1,14 @@
 # Universe imports
 import hashlib
 import json
+import subprocess
 
 # Thirdparty imports
 import eventlet
 import eventlet.timeout
 from eventlet.green import urllib2, httplib
+
+from lxml import etree
 
 
 def decompress_data(compressed_data):
@@ -139,17 +142,52 @@ def multi_ua_get(url, user_agents, timeout=15):
         """
         Fetch the url as the given user agent.
         """
+
+        # First try
+        with eventlet.timeout.Timeout(timeout, False) as timeout_obj:
+            try:
+                data = subprocess.check_output(
+                    [
+                        'phantomjs',
+                        'retickrtools/scripts/getpage.js',
+                        url,
+                        ua
+                    ]
+                )
+
+                # Try to parse the html. If phantomjs failed, because of
+                # ill-formed javascript for example, there will be some error
+                # messages in it's output that will cause the xml parsing to
+                # fail
+                etree.fromstring(data)
+
+                return (ua, data)
+
+            except (eventlet.Timeout, subprocess.CalledProcessError, OSError,
+                    TypeError, UnicodeDecodeError):
+                return (ua, '')
+
+            except etree.XMLSyntaxError:
+                # We'll try again without phantomjs
+                pass
+
+            finally:
+                timeout_obj.cancel()
+
+        # Second Try
         with eventlet.timeout.Timeout(timeout, False) as timeout_obj:
             try:
                 request = urllib2.Request(url)
                 request.add_header("User-Agent", ua)
                 response = urllib2.urlopen(request)
                 data = response.read()
+
                 return (ua, data)
 
             except (eventlet.Timeout, urllib2.HTTPError, httplib.BadStatusLine,
                     urllib2.URLError, ValueError):
-                return (ua, "")
+                return (ua, '')
+
             finally:
                 timeout_obj.cancel()
 
