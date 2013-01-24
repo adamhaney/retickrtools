@@ -147,7 +147,8 @@ def multi_ua_get(url, user_agents, timeout=15):
                 data = response.read()
                 return (ua, data)
 
-            except (eventlet.Timeout, urllib2.HTTPError, httplib.BadStatusLine, ValueError):
+            except (eventlet.Timeout, urllib2.HTTPError, httplib.BadStatusLine,
+                    urllib2.URLError, ValueError):
                 return (ua, "")
             finally:
                 timeout_obj.cancel()
