@@ -1,14 +1,10 @@
 # Universe imports
 import hashlib
 import json
-import subprocess
 
 # Thirdparty imports
 import eventlet
-import eventlet.timeout
 from eventlet.green import urllib2, httplib
-
-from lxml import etree
 
 
 def decompress_data(compressed_data):
@@ -23,6 +19,7 @@ def decompress_data(compressed_data):
     gzipper = gzip.GzipFile(fileobj=compressed_stream)
 
     return gzipper.read()
+
 
 def md5(str_):
     md5 = hashlib.md5()    
@@ -41,7 +38,8 @@ def event_network(
     filter_out_empty_responses=True,
     cache=None,
     cache_prefix="event_network",
-    cache_length=300):
+    cache_length=300
+):
     """
     Given a list of uris to pull over network pull them and then
     return a dictionary of their responses keyed on the uri which was
@@ -55,11 +53,11 @@ def event_network(
         pool = greenpool
 
     def pull_link(link):
-        if cache != None:
+        if cache is not None:
             # Check for the response in cache
             cache_key = "{0}::{1}".format(cache_prefix, md5(link))
             response = cache.get(cache_key)
-            if response != None:
+            if response is not None:
                 return link, response
 
         with eventlet.timeout.Timeout(timeout, False) as timeout_obj:
@@ -78,10 +76,10 @@ def event_network(
                 data = resp.read()
 
                 # If the data arrived compressed, decompress it
-                if "gzip" == resp.headers.get("Content-Encoding"):
+                if "gzip" == resp.info().getheader("Content-Encoding"):
                     data = decompress_data(data)
 
-                if cache != None:
+                if cache is not None:
                     cache.set(cache_key, data, cache_length)
 
                 return (link, data)
@@ -105,7 +103,7 @@ def event_network(
     pool.waitall()
 
     if filter_out_empty_responses:
-        results = filter(lambda (link, data): type(data) != None and len(data) > 0, results)
+        results = filter(lambda (link, data): type(data) is not None and len(data) > 0, results)
 
     results = dict(results)
 

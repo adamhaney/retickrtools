@@ -5,4 +5,7 @@ retickrtools.egg-info/
 *~
 .fuse_hidden*
 *.pyc
+.idea
+env
+venv
 
